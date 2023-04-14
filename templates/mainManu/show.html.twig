@@ -1,0 +1,70 @@
+{% extends 'base2.html.twig' %}
+
+{% block body %}
+<h1>Show page</h1>
+{% for message in app.flashes('success') %}
+<div class="alert alert-success">
+    {{message}}
+</div>
+
+
+{% endfor %}
+
+<div>
+
+</div>
+<table class="table table-bordered bg-white">
+    <thead>
+        <tr>
+            <th scope="col">Sr</th>
+            <th scope="col">id</th>
+            <th scope="col">Name</th>
+            <th scope="col">Address</th>
+            <th scope="col">Mobile</th>
+            <th scope="col">compony</th>
+            <th scope="col">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% set count=1 %}
+        {% for data in emp %}
+
+        <tr>
+            <td>
+                {{ count }}
+                {% set count=count+1 %}
+            </td>
+            <td>
+                {{data.id }}
+            </td>
+            <td>
+                {{data.name }}
+            </td>
+            <td>
+                {{data.Address}}
+            </td>
+            <td>
+                {{data.number}}
+            </td>
+            <td>
+                {{data.compony}}
+            </td>
+            <td>
+                <form action="{{ path("app_show",{id:data.id})  }} " method="get">
+                    <button class="btn btn-warning" type="sub
+                    "> Edit </button>
+                    <button type="sub
+                    " class="btn btn-danger">Delete</button>
+                </form>
+            </td>
+
+
+        </tr>
+
+        {% endfor %}
+        <tr></tr>
+    </tbody>
+</table>
+
+
+{% endblock %}
