@@ -1,6 +1,8 @@
 {% extends 'base2.html.twig' %}
 
 {% block body %}
-<h1>Insert  page</h1>
-{{ id }}
-{% endblock %}
+	<h1>Insert  page</h1>
+	{# {{  form('insert_form')  }} #}
+	{# {{ form_start(insert_form) }} #}
+	{{form(insert_form) }}
+    {% endblock %}

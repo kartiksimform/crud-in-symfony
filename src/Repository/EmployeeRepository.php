@@ -45,7 +45,7 @@ class EmployeeRepository extends ServiceEntityRepository
    public function getAllOrderById(): array
    {
        return $this->createQueryBuilder('e')
-           ->orderBy('e.id', 'ASC')
+           ->orderBy('e.id', 'DESC')
            ->getQuery()
            ->getResult()
        ;

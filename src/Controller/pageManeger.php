@@ -10,6 +10,10 @@ use PhpParser\Node\Name;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Filesystem\Path;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Form\InsertOneDataBySelfType;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Twig\Environment;
 
 class pageManeger extends AbstractController
 {
@@ -21,19 +25,23 @@ class pageManeger extends AbstractController
     }
 
     #[Route("/new", name: "app_insert")]
-    public function appInsert(EntityManagerInterface $em)
+    public function appInsert(Request $reqvest,EntityManagerInterface $em)
     {
         $emp = new Employee();
-        $emp->setName("kartik");
-        $emp->setAddress("luna");
-        $emp->setNumber(77575);
-        $emp->setCompony("Simform");
-        $em->persist($emp);
-        $em->flush();
-        return $this->render(
-            "mainManu/insert.html.twig",
-            ["id" => $emp->getId()]
-        );
+        $form = $this->createForm(InsertOneDataBySelfType::class, $emp);
+        // $formView=$form->createView();
+        // dd($formView);
+        $form->handleRequest($reqvest);
+        if($form->isSubmitted()){
+            $this->addFlash('success',"Data Added");
+            $em->persist($emp);
+            $em->flush();
+            // dd($emp->getId());
+            return $this->redirectToRoute('app_show');
+        }
+
+        // dd($form->createView());
+        return $this->render('mainManu/insert.html.twig', ['insert_form' => $form->createView()]);
     }
 
     #[Route("/show", name: "app_show")]
