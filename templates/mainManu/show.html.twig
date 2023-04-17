@@ -50,11 +50,11 @@
                 {{data.compony}}
             </td>
             <td>
-                <form action="{{ path("app_show",{id:data.id})  }} " method="get">
+                <form action="{{ path("app_action",{id:data.id})  }} " method="get">
                     <button class="btn btn-warning" type="sub
-                    "> Edit </button>
+                    " name="action" value="edit" > Edit </button>
                     <button type="sub
-                    " class="btn btn-danger">Delete</button>
+                    " class="btn btn-danger" name="action" value="delete">Delete</button>
                 </form>
             </td>
 

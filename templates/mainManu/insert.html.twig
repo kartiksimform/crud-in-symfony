@@ -4,5 +4,9 @@
 	<h1>Insert  page</h1>
 	{# {{  form('insert_form')  }} #}
 	{# {{ form_start(insert_form) }} #}
-	{{form(insert_form) }}
+	{{form(insert_form)  }}
+	{# {{ form_row(insert_form.name) }} #}
+	{# {{ form_widget(insert_form.name,{value:'sss'}) }}
+	{{ form_row(insert_form.address) }} #}
+
     {% endblock %}

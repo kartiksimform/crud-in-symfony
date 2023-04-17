@@ -25,22 +25,20 @@ class pageManeger extends AbstractController
     }
 
     #[Route("/new", name: "app_insert")]
-    public function appInsert(Request $reqvest,EntityManagerInterface $em)
+    public function appInsert(Request $reqvest, EntityManagerInterface $em)
     {
         $emp = new Employee();
         $form = $this->createForm(InsertOneDataBySelfType::class, $emp);
-        // $formView=$form->createView();
-        // dd($formView);
+
         $form->handleRequest($reqvest);
-        if($form->isSubmitted()){
-            $this->addFlash('success',"Data Added");
+        if ($form->isSubmitted()) {
+            $this->addFlash('success', "Data Added");
+
             $em->persist($emp);
             $em->flush();
-            // dd($emp->getId());
             return $this->redirectToRoute('app_show');
         }
 
-        // dd($form->createView());
         return $this->render('mainManu/insert.html.twig', ['insert_form' => $form->createView()]);
     }
 
@@ -48,23 +46,40 @@ class pageManeger extends AbstractController
     public function appShow(EmployeeRepository $emp)
     {
         $emp = $emp->getAllOrderById();
-        // dd($emp);
 
         return $this->render("mainManu/show.html.twig", ["emp" => $emp]);
     }
-    #[Route("/delete/{id}", name: "user_delete")]
-    public function userDelete(int $id, EmployeeRepository $emprepo, EntityManagerInterface $em)
+    #[Route("/action/{id}", name: "app_action")]
+    public function userDelete(int $id, EmployeeRepository $emprepo, Request $request, EntityManagerInterface $em)
     {
         $ob = $emprepo->find($id);
-        if ($ob) {
-            $em->remove($ob);
+        $form = $this->createForm(InsertOneDataBySelfType::class, $ob);
+        $form->handleRequest($request);
+        if ($form->isSubmitted()) {
+            $this->addFlash('success', "Data Updated");
+
+            $em->persist($form->getData());
             $em->flush();
-            $this->addFlash('success', "Record Deleted");
-            dd($em);
+            return $this->redirectToRoute('app_show');
+        }
+        $edit = $request->query->get('action');
+
+        if ($ob) {
+            if ($edit == "edit") {
+                return $this->render("mainManu/update.html.twig", ["emp" => $ob, "insert_form" => $form->createView()]);
+            } else {
+
+                $em->remove($ob);
+                $this->addFlash('success', "Record Deleted");
+            }
+            $em->flush();
+            // dd($em);
         } else {
             dd("Not valid id");
         }
 
-        // return $this->redirectToRoute("app_show");
+
+
+        return $this->redirectToRoute("app_show");
     }
 }

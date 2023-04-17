@@ -4,11 +4,13 @@ namespace App\Form;
 
 use App\Entity\Employee;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Polyfill\Intl\Icu\NumberFormatter;
 
 class InsertOneDataBySelfType extends AbstractType
 {
@@ -18,7 +20,9 @@ class InsertOneDataBySelfType extends AbstractType
             ->add('name',TextType::class)
             ->add('address',TextType::class)
             ->add('number',NumberType::class)
+            
             ->add('compony',TextType::class)
+            // ->add('term',CheckboxType::class,['mapped'=>false,'label'=>'Accept Term and conditions'])
             ->add('Submit', SubmitType::class);
     }
 
